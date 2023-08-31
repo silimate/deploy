@@ -1,0 +1,38 @@
+# EFS storage class
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: efs-sc
+provisioner: efs.csi.aws.com
+parameters:
+  provisioningMode: efs-ap
+  fileSystemId: ${EFS_ID}
+  directoryPerms: "700"
+---
+# Shared volume for all pods
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: share-claim
+spec:
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-sc
+  resources:
+    requests:
+      storage: 5Gi # this isn't actually used!
+---
+# Volume for database
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pv-claim
+spec:
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-sc
+  resources:
+    requests:
+      storage: 5Gi # this isn't actually used!

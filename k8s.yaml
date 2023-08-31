@@ -1,0 +1,70 @@
+# Deployment of the containers as a pod
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: silimate-platform-k8s-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: silimate
+  template:
+    metadata:
+      labels:
+        app: silimate
+    spec:
+      initContainers:
+        - name: flow-init
+          image: 596912105783.dkr.ecr.us-west-1.amazonaws.com/silimate-flow:latest
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: silimate-secrets
+          args: ["db", "migrate"]
+      containers:
+        - name: frontend
+          image: 596912105783.dkr.ecr.us-west-1.amazonaws.com/silimate-platform-frontend:latest
+          imagePullPolicy: Always
+        - name: backend
+          image: 596912105783.dkr.ecr.us-west-1.amazonaws.com/silimate-platform-backend:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: silimate-config
+            - secretRef:
+                name: silimate-secrets
+          volumeMounts:
+            - name: share
+              mountPath: /app/share
+        - name: dashboard
+          image: 596912105783.dkr.ecr.us-west-1.amazonaws.com/silimate-dashboard:latest
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: silimate-secrets
+        - name: flow-scheduler
+          image: 596912105783.dkr.ecr.us-west-1.amazonaws.com/silimate-flow:latest
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: silimate-secrets
+          args: ["scheduler"]
+          volumeMounts:
+            - name: share
+              mountPath: /app/share
+        - name: flow-webserver
+          image: 596912105783.dkr.ecr.us-west-1.amazonaws.com/silimate-flow:latest
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: silimate-secrets
+          args: ["webserver"]
+          volumeMounts:
+            - name: share
+              mountPath: /app/share
+      imagePullSecrets:
+        - name: aws-ecr-secret
+      volumes:
+        - name: share
+          persistentVolumeClaim:
+            claimName: share-claim

@@ -1,0 +1,49 @@
+# Database service
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  labels:
+    app: silimate
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: silimate
+---
+# Database deployment to cluster
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  labels:
+    app: silimate
+spec:
+  selector:
+    matchLabels:
+      app: silimate
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: silimate
+    spec:
+      containers:
+      - image: 596912105783.dkr.ecr.us-west-1.amazonaws.com/silimate-platform-db:latest
+        name: postgres
+        envFrom:
+          - secretRef:
+              name: silimate-secrets
+        ports:
+          - containerPort: 5432
+            name: postgres
+        volumeMounts:
+          - name: postgres-persistent-storage
+            mountPath: /var/lib/postgresql/
+      imagePullSecrets:
+        - name: aws-ecr-secret
+      volumes:
+        - name: postgres-persistent-storage
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
