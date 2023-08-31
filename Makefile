@@ -1,6 +1,6 @@
 # Local or EKS (cloud)
-K8S_CONTEXT := eks
-K8S_ENV := dev
+K8S_CONTEXT := local
+K8S_ENV := femtosense
 
 # AWS Configuration
 AWS_ACCOUNT_ID := $(shell aws sts get-caller-identity --query Account --output text)
@@ -27,7 +27,7 @@ aws-auth:
 	envsubst < aws/aws-auth.tmpl.yaml > aws/aws-auth.yaml
 	kubectl patch configmap/aws-auth -n kube-system --type merge --patch-file aws/aws-auth.yaml
 
-local: worker-auth create-secrets create-config create-local-pvc start-db start expose
+local: create-secrets create-config create-local-pvc start-db start expose worker-auth
 
 worker-auth:
 	kubectl apply -f worker-auth.yaml
