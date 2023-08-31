@@ -4,7 +4,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: share-claim
 spec:
-  storageClassName: hostPath
+  storageClassName: hostpath
   accessModes:
     - ReadWriteMany
   resources:
@@ -22,7 +22,7 @@ spec:
     storage: 5Gi
   accessModes:
     - ReadWriteMany
-  storageClassName: hostPath
+  storageClassName: hostpath
   hostPath:
     path: /silimate/share
 ---
@@ -32,7 +32,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: postgres-pv-claim
 spec:
-  storageClassName: hostPath
+  storageClassName: hostpath
   accessModes:
     - ReadWriteMany
   resources:
@@ -50,6 +50,6 @@ spec:
     storage: 5Gi
   accessModes:
     - ReadWriteMany
-  storageClassName: hostPath
+  storageClassName: hostpath
   hostPath:
     path: /silimate/db
