@@ -27,7 +27,7 @@ aws-auth:
 	envsubst < aws/aws-auth.tmpl.yaml > aws/aws-auth.yaml
 	kubectl patch configmap/aws-auth -n kube-system --type merge --patch-file aws/aws-auth.yaml
 
-local: create-secrets create-config create-local-pvc start-db start expose worker-auth
+local: create-ecr-secret create-secrets create-config create-local-pvc start-db start expose worker-auth
 
 worker-auth:
 	kubectl apply -f worker-auth.yaml
@@ -40,7 +40,7 @@ delete-secrets:
 
 create-ecr-secret:
 	kubectl create secret docker-registry aws-ecr-secret \
-		--docker-server=$(AWS_ACCOUNT_ID).dkr.ecr.$(AWS_REGION).amazonaws.com \
+		--docker-server=596912105783.dkr.ecr.$(AWS_REGION).amazonaws.com \
 		--docker-username=AWS \
 		--docker-password=`aws ecr get-login-password --region $(AWS_REGION)`
 delete-ecr-secret:

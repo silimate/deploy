@@ -2,3 +2,5 @@ aws/aws-auth.yaml
 aws/aws-efs-csi-driver-trust-policy.json
 aws/efs-pvc.yaml
 config/
+db/
+share/

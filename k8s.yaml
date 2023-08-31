@@ -66,5 +66,5 @@ spec:
         - name: aws-ecr-secret
       volumes:
         - name: share
-          persistentVolumeClaim:
-            claimName: share-claim
+          hostPath:
+            path: /silimate/share

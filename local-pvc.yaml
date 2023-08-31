@@ -1,23 +1,55 @@
-# Shared volume for all pods
+# Shared volume claim for all pods
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: share-claim
 spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 32Gi
----
-# Volume for database
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: postgres-pv-claim
-spec:
+  storageClassName: hostpath
   accessModes:
     - ReadWriteMany
   resources:
     requests:
       storage: 5Gi
+---
+# Volume for all pods
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: share-volume
+spec:
+  persistentVolumeReclaimPolicy: Retain
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  storageClassName: hostpath
+  hostPath:
+    path: /Users/akashlevy/Documents/deploy/share
+---
+# Shared volume claim for database
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pv-claim
+spec:
+  storageClassName: hostpath
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+---
+# Volume for database
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-pv-storage
+spec:
+  persistentVolumeReclaimPolicy: Retain
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  storageClassName: hostpath
+  hostPath:
+    path: /Users/akashlevy/Documents/deploy/db

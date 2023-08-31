@@ -39,11 +39,11 @@ spec:
           - containerPort: 5432
             name: postgres
         volumeMounts:
-          - name: postgres-persistent-storage
+          - name: postgres-pv-storage
             mountPath: /var/lib/postgresql/
       imagePullSecrets:
         - name: aws-ecr-secret
       volumes:
-        - name: postgres-persistent-storage
-          persistentVolumeClaim:
-            claimName: postgres-pv-claim
+        - name: postgres-pv-storage
+          hostPath:
+            path: /silimate/db
