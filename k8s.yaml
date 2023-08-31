@@ -68,3 +68,4 @@ spec:
         - name: share
           hostPath:
             path: /silimate/share
+            type: DirectoryOrCreate
