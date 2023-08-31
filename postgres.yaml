@@ -45,5 +45,5 @@ spec:
         - name: aws-ecr-secret
       volumes:
         - name: postgres-pv-storage
-          persistentVolumeClaim:
-            claimName: postgres-pv-claim
+          hostPath:
+            path: /silimate/db
