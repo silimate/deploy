@@ -25,7 +25,7 @@ Kubernetes configuration/provisioning for deployments, including Postgres databa
 ## Common Standard Operating Procedure
 1. Ensure that config and secrets yamls provided by Silimate are in `config/` directory
 2. Make sure that `Makefile` has `K8S_ENV` set to your company alias and `K8S_CONTEXT` set to `local`
-3. Deploy AWS ECR secrets with `make create-ecr-secret`
+3. Edit `local-pvc.yaml` to contain your desired data directories
 4. Deploy secrets with `make create-secrets`
 5. Deploy the config file with `make create-config`
 6. (If not using RDS) Deploy PostgreSQL database `make start-db`

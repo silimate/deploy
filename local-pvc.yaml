@@ -24,7 +24,7 @@ spec:
     - ReadWriteMany
   storageClassName: hostpath
   hostPath:
-    path: /Users/akashlevy/Documents/deploy/share
+    path: /silimate/share
 ---
 # Shared volume claim for database
 apiVersion: v1
@@ -52,4 +52,4 @@ spec:
     - ReadWriteMany
   storageClassName: hostpath
   hostPath:
-    path: /Users/akashlevy/Documents/deploy/db
+    path: /silimate/db
