@@ -15,8 +15,8 @@ Kubernetes configuration/provisioning for deployments, including Postgres databa
 6. (Optional) Make sure `KUBE_CONFIG_DATA` secret is updated in all [GitHub Actions for Continuous Deployment (CD)](https://github.com/kodermax/kubectl-aws-eks)
 7. Follow "Common SOP" below
 
-## On-premise Deployment Standard Operating Procedure
-1. Install Docker engine
+## On-Premise/Single-Machine Deployment Standard Operating Procedure
+1. Install and run Docker engine. For CentOS/RHEL 7, (1) follow [this guide](https://gist.github.com/RulerOf/2bc34db224ccf8606e41b16c315d0bb6), then (2) [this one](https://docs.docker.com/engine/install/centos/), then (3) run `sudo systemctl start docker`, and (4)
 2. Start Kubernetes with `kubeadm` or `minikube`
 3. Create AWS account and log in: [whitelist AWS account ID with Silimate](https://repost.aws/knowledge-center/secondary-account-access-ecr)
 4. Create local PVC with `make create-local-pvc`

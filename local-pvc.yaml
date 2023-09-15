@@ -25,31 +25,3 @@ spec:
   storageClassName: hostpath
   hostPath:
     path: /silimate/share
----
-# Shared volume claim for database
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: postgres-pv-claim
-spec:
-  storageClassName: hostpath
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 5Gi
----
-# Volume for database
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: postgres-pv-storage
-spec:
-  persistentVolumeReclaimPolicy: Retain
-  capacity:
-    storage: 5Gi
-  accessModes:
-    - ReadWriteMany
-  storageClassName: hostpath
-  hostPath:
-    path: /silimate/db

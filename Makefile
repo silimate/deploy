@@ -27,7 +27,7 @@ aws-auth:
 	envsubst < aws/aws-auth.tmpl.yaml > aws/aws-auth.yaml
 	kubectl patch configmap/aws-auth -n kube-system --type merge --patch-file aws/aws-auth.yaml
 
-local: create-ecr-secret create-secrets create-config create-local-pvc start-db start expose worker-auth
+local: create-ecr-secret create-secrets create-config start-db start expose worker-auth
 
 worker-auth:
 	kubectl apply -f worker-auth.yaml

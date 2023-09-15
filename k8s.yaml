@@ -65,6 +65,6 @@ spec:
       imagePullSecrets:
         - name: aws-ecr-secret
       volumes:
-        - name: share
-          hostPath:
-            path: /silimate/share
+      - name: share
+        persistentVolumeClaim:
+          claimName: share-claim
